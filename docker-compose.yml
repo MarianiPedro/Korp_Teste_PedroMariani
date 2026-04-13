@@ -6,12 +6,16 @@ services:
     container_name: korp_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: korp_estoque
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   estoque-api:
     build: ./backend/Estoque.API
@@ -22,7 +26,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=mysql;Database=korp_estoque;User=root;Password=root;
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   faturamento-api:
     build: ./backend/Faturamento.API
@@ -34,8 +39,10 @@ services:
       - ConnectionStrings__DefaultConnection=Server=mysql;Database=korp_faturamento;User=root;Password=root;
       - EstoqueApi__BaseUrl=http://estoque-api:8080
     depends_on:
-      - mysql
-      - estoque-api
+      mysql:
+        condition: service_healthy
+      estoque-api:
+        condition: service_started
 
 volumes:
   mysql_data:

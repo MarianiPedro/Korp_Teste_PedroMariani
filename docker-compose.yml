@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: korp_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: korp_estoque
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  estoque-api:
+    build: ./backend/Estoque.API
+    container_name: korp_estoque
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=korp_estoque;User=root;Password=root;
+    depends_on:
+      - mysql
+
+  faturamento-api:
+    build: ./backend/Faturamento.API
+    container_name: korp_faturamento
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=korp_faturamento;User=root;Password=root;
+      - EstoqueApi__BaseUrl=http://estoque-api:8080
+    depends_on:
+      - mysql
+      - estoque-api
+
+volumes:
+  mysql_data:

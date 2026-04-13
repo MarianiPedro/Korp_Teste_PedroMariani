@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS korp_estoque;
+CREATE DATABASE IF NOT EXISTS korp_faturamento;

@@ -6,12 +6,12 @@ export const routes: Routes = [
     path: 'produtos',
     loadComponent: () =>
       import('./features/produtos/produtos')
-        .then(m => m.Produtos)
+        .then(m => m.ProdutosComponent)
   },
   {
     path: 'notas',
     loadComponent: () =>
       import('./features/notas/notas')
-        .then(m => m.Notas)
+        .then(m => m.NotasComponent)
   }
 ];

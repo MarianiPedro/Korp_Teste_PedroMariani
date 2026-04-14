@@ -1,0 +1,77 @@
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+}
+
+.form-card {
+  margin-bottom: 2rem;
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    .field-produto { flex: 2; }
+    .field-qtd { flex: 1; }
+  }
+
+  .btn-add-item {
+    margin: 0.5rem 0 1rem;
+  }
+
+  .form-actions {
+    margin-top: 1rem;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+
+  table { width: 100%; }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  padding: 2rem;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.aberta {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.fechada {
+    background-color: #fce4ec;
+    color: #c62828;
+  }
+}
+
+.chip {
+  display: inline-block;
+  background: #e3f2fd;
+  color: #1565c0;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-right: 4px;
+}

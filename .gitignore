@@ -491,3 +491,5 @@ frontend/.angular/
 # Env / secrets
 .env
 *.env
+
+backend/Faturamento.API/appsettings.Development.json

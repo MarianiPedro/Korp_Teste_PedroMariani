@@ -17,6 +17,8 @@ import { NotaFiscalService } from '../../core/services/notaFiscal.service';
 import { ProdutoService } from '../../core/services/produto.service';
 import { NotaFiscal, StatusNota } from '../../shared/models/notaFiscal.model';
 import { Produto } from '../../shared/models/produto.model';
+import { IaService } from '../../core/services/ia.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-notas',
@@ -34,7 +36,8 @@ import { Produto } from '../../shared/models/produto.model';
     MatCardModule,
     MatSelectModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressBarModule
   ],
   templateUrl: './notas.html',
   styleUrl: './notas.scss'
@@ -48,14 +51,16 @@ export class NotasComponent implements OnInit, OnDestroy {
   salvando = false;
   imprimindo: number | null = null;
   StatusNota = StatusNota;
-
+  sugestaoIa: string = '';
+  carregandoIa = false;
   private destroy$ = new Subject<void>();
 
   constructor(
     private notaService: NotaFiscalService,
     private produtoService: ProdutoService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private iaService: IaService
   ) {
     this.form = this.fb.group({
       itens: this.fb.array([])
@@ -65,6 +70,7 @@ export class NotasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.carregarNotas();
     this.carregarProdutos();
+    this.carregarSugestaoIa();
   }
 
   ngOnDestroy(): void {
@@ -174,5 +180,21 @@ export class NotasComponent implements OnInit, OnDestroy {
 
   statusLabel(status: StatusNota): string {
     return status === StatusNota.Aberta ? 'Aberta' : 'Fechada';
+  }
+
+  carregarSugestaoIa(): void {
+  this.carregandoIa = true;
+  this.iaService.obterSugestoes()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => {
+        this.sugestaoIa = res.sugestao;
+        this.carregandoIa = false;
+      },
+      error: () => {
+        this.sugestaoIa = 'Sugestão de IA indisponível no momento.';
+        this.carregandoIa = false;
+      }
+    });
   }
 }

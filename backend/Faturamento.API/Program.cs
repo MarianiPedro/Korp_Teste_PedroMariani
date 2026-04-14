@@ -29,6 +29,7 @@ builder.Services.AddHttpClient("EstoqueApi", client =>
 .AddStandardResilienceHandler();
 
 builder.Services.AddScoped<INotaFiscalService, NotaFiscalService>();
+builder.Services.AddScoped<IaService>();
 
 var app = builder.Build();
 

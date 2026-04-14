@@ -1,6 +1,15 @@
 <div class="container">
   <h2>Notas Fiscais</h2>
-
+    <mat-card class="ia-card">
+    <mat-card-content>
+        <div class="ia-header">
+        <mat-icon>auto_awesome</mat-icon>
+        <strong>Sugestão de IA</strong>
+        </div>
+        <mat-progress-bar mode="indeterminate" *ngIf="carregandoIa"></mat-progress-bar>
+        <p *ngIf="!carregandoIa" class="ia-texto">{{ sugestaoIa }}</p>
+    </mat-card-content>
+    </mat-card>
   <mat-card class="form-card">
     <mat-card-title>Nova Nota Fiscal</mat-card-title>
     <mat-card-content>

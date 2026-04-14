@@ -75,3 +75,22 @@
   font-size: 12px;
   margin-right: 4px;
 }
+
+.ia-card {
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #7c4dff;
+
+  .ia-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #7c4dff;
+  }
+
+  .ia-texto {
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+  }
+}

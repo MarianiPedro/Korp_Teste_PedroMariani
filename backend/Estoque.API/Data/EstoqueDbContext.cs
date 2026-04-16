@@ -29,10 +29,6 @@ public class EstoqueDbContext : DbContext
 
             entity.Property(p => p.Saldo)
                   .IsRequired();
-
-            entity.Property(p => p.RowVersion)
-                  .IsRowVersion()
-                  .IsConcurrencyToken();
         });
     }
 }

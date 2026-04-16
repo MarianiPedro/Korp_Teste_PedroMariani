@@ -26,10 +26,9 @@ public class IaService
 
     public async Task<string> SugerirProdutosAsync()
     {
-        // LINQ: buscar os produtos mais usados em notas fechadas
         var produtosMaisUsados = await _context.ItensNota
-            .Include(i => i.NotaFiscal)
-            .Where(i => i.NotaFiscal.Status == Models.StatusNota.Fechada)
+            .Where(i => _context.NotasFiscais
+                .Any(n => n.Id == i.NotaFiscalId && n.Status == Models.StatusNota.Fechada))
             .GroupBy(i => new { i.ProdutoId, i.ProdutoDescricao })
             .Select(g => new
             {

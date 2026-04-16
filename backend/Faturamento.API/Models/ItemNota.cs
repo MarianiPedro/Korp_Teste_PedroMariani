@@ -8,5 +8,4 @@ public class ItemNota
     public string ProdutoDescricao { get; set; } = string.Empty;
     public int Quantidade { get; set; }
 
-    public NotaFiscal NotaFiscal { get; set; } = null!;
 }

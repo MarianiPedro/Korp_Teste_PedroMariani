@@ -1,2 +1,33 @@
 CREATE DATABASE IF NOT EXISTS korp_estoque;
 CREATE DATABASE IF NOT EXISTS korp_faturamento;
+
+USE korp_estoque;
+
+CREATE TABLE IF NOT EXISTS Produtos (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Codigo VARCHAR(50) NOT NULL,
+    Descricao VARCHAR(200) NOT NULL,
+    Saldo INT NOT NULL DEFAULT 0,
+    RowVersion TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    UNIQUE INDEX IX_Produtos_Codigo (Codigo)
+);
+
+USE korp_faturamento;
+
+CREATE TABLE IF NOT EXISTS NotasFiscais (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Numero INT NOT NULL,
+    Status INT NOT NULL DEFAULT 1,
+    DataCriacao DATETIME(6) NOT NULL,
+    UNIQUE INDEX IX_NotasFiscais_Numero (Numero)
+);
+
+CREATE TABLE IF NOT EXISTS ItensNota (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    NotaFiscalId INT NOT NULL,
+    ProdutoId INT NOT NULL,
+    ProdutoDescricao VARCHAR(200) NOT NULL,
+    Quantidade INT NOT NULL,
+    CONSTRAINT FK_ItensNota_NotasFiscais FOREIGN KEY (NotaFiscalId)
+        REFERENCES NotasFiscais(Id) ON DELETE CASCADE
+);

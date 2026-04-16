@@ -16,22 +16,13 @@ public class FaturamentoDbContext : DbContext
         modelBuilder.Entity<NotaFiscal>(entity =>
         {
             entity.HasKey(n => n.Id);
-
-            entity.Property(n => n.Numero)
-                  .IsRequired();
-
-            entity.HasIndex(n => n.Numero)
-                  .IsUnique();
-
-            entity.Property(n => n.Status)
-                  .IsRequired()
-                  .HasConversion<int>();
-
-            entity.Property(n => n.DataCriacao)
-                  .IsRequired();
+            entity.Property(n => n.Numero).IsRequired();
+            entity.HasIndex(n => n.Numero).IsUnique();
+            entity.Property(n => n.Status).IsRequired().HasConversion<int>();
+            entity.Property(n => n.DataCriacao).IsRequired();
 
             entity.HasMany(n => n.Itens)
-                  .WithOne(i => i.NotaFiscal)
+                  .WithOne()
                   .HasForeignKey(i => i.NotaFiscalId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
@@ -39,13 +30,8 @@ public class FaturamentoDbContext : DbContext
         modelBuilder.Entity<ItemNota>(entity =>
         {
             entity.HasKey(i => i.Id);
-
-            entity.Property(i => i.ProdutoDescricao)
-                  .IsRequired()
-                  .HasMaxLength(200);
-
-            entity.Property(i => i.Quantidade)
-                  .IsRequired();
+            entity.Property(i => i.ProdutoDescricao).IsRequired().HasMaxLength(200);
+            entity.Property(i => i.Quantidade).IsRequired();
         });
     }
 }
